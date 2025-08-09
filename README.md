@@ -20,7 +20,7 @@ This project allows users to chat with a rock or other objects with AI as a chat
 Chatting with anything you see. I dont think anyone wishes to do so.
 
 ### The Solution (that nobody asked for)
-Usint AI, we create personas for objects and ause this persona as the ssytem prompt for the AI chatbot.
+Using AI, we create personas for objects and ause this persona as the ssytem prompt for the AI chatbot.
 
 ### Technical Details
 ### Technologies/Components Used
