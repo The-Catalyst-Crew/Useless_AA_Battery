@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'qwen/qwen2.5-vl-72b-instruct:free',
+        model: 'z-ai/glm-4.5-air:free',
         messages: [
           {
             role: 'system',
