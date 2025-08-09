@@ -55,12 +55,18 @@ Keep your responses conversational and relatively brief (2-4 sentences typically
         content: message
       }
     ]
-
+    
+    // Get API key from environment variables
+    const apiKey = process.env.API_KEY
+    if (!apiKey) {
+      throw new Error('Missing API_KEY in environment variables')
+    }
+    
     // Call OpenAI API
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer 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`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

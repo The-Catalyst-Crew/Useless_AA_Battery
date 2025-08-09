@@ -25,11 +25,17 @@ export async function POST(request: NextRequest) {
     const base64Image = Buffer.from(bytes).toString('base64')
     const imageDataUrl = `data:${imageFile.type};base64,${base64Image}`
 
+    // Get API key from environment variables
+    const apiKey = process.env.API_KEY
+    if (!apiKey) {
+      throw new Error('Missing API_KEY in environment variables')
+    }
+
     // Use OpenAI API
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer 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`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -48,7 +54,7 @@ Your response should be a JSON object with the following structure:
   "description": "A brief description of what the object is and its current state based on the image",
   "personality": "Detailed personality traits, quirks, and characteristics",
   "background": "An imaginative backstory explaining where it came from, its experiences, and how it got to where it is now",
-  "traits": ["trait1", "trait2", "trait3", "trait4", "trait5"] (5 key personality traits as single words or short phrases)
+  "traits": ["trait1", "trait2", "trait3", "trait4", "trait5"]
 }
 
 Be creative, whimsical, and engaging. Make the persona feel alive and unique. For inanimate objects, give them human-like qualities and emotions. For people or animals, create an imaginative backstory that goes beyond what's visible in the image.
@@ -84,14 +90,11 @@ IMPORTANT: You must respond with valid JSON only, no additional text.`
 
     const completion = await response.json()
 
-    // Parse the AI response
     const responseContent = completion.choices[0]?.message?.content
-    
     if (!responseContent) {
       throw new Error('No response from AI')
     }
 
-    // Extract JSON from the response (in case the AI adds extra text)
     const jsonMatch = responseContent.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
       throw new Error('Invalid response format from AI')
